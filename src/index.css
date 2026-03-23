@@ -1,11 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&display=swap');
 @import 'tailwindcss';
 
 @theme {
-  --color-accent: #2563eb;
-  --color-accent-light: #3b82f6;
-  --color-marked: #dcfce7;
-  --color-marked-border: #22c55e;
-  --color-bingo: #fbbf24;
+  /* Legacy accent references kept for any residual usages */
+  --color-accent: #00f5ff;
+  --color-accent-light: #33f7ff;
+  --color-marked: #001e1e;
+  --color-marked-border: #00f5ff;
+  --color-bingo: #ff2d78;
+
+  /* ── Cyberpunk palette ── */
+  --color-cy-bg: #020412;
+  --color-cy-surface: #070d1a;
+  --color-cy-surface2: #0e1628;
+  --color-cy-cyan: #00f5ff;
+  --color-cy-cyan-dim: #007a87;
+  --color-cy-magenta: #ff2d78;
+  --color-cy-magenta-dim: #7a1438;
+  --color-cy-gold: #ffcc00;
+  --color-cy-green: #00ff88;
+  --color-cy-text: #cce8ff;
+  --color-cy-text-dim: #4e6a85;
+  --color-cy-border: #1a304d;
+
+  /* ── Fonts ── */
+  --font-cyber: 'Orbitron', 'Courier New', monospace;
+  --font-mono: 'Share Tech Mono', 'Courier New', monospace;
 }
 
 html,
@@ -16,6 +36,206 @@ body,
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  background-color: #020412;
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  color: #cce8ff;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Keyframe Animations ──────────────────────────────────────────── */
+
+@keyframes grid-drift {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
+
+@keyframes neon-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+@keyframes scanline-scroll {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+@keyframes slide-up-fade {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flicker-in {
+  0%   { opacity: 0; }
+  8%   { opacity: 0.9; }
+  14%  { opacity: 0.1; }
+  20%  { opacity: 0.95; }
+  26%  { opacity: 0.25; }
+  34%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes modal-scale-in {
+  from { opacity: 0; transform: scale(0.88) translateY(18px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes win-pulse {
+  0%, 100% {
+    box-shadow: 0 0 6px #ff2d78, 0 0 12px #ff2d7880, inset 0 0 8px #ff2d7820;
+  }
+  50% {
+    box-shadow: 0 0 14px #ff2d78, 0 0 28px #ff2d78, 0 0 56px #ff2d7840, inset 0 0 14px #ff2d7830;
+  }
+}
+
+@keyframes bingo-banner {
+  0%, 100% { text-shadow: 0 0 8px #ff2d78, 0 0 16px #ff2d7880; }
+  50%       { text-shadow: 0 0 18px #ff2d78, 0 0 36px #ff2d78, 0 0 54px #ff2d7840; }
+}
+
+@keyframes cta-glow {
+  0%, 100% { box-shadow: 0 0 10px #ff2d7860, 0 0 20px #ff2d7830; }
+  50%       { box-shadow: 0 0 18px #ff2d78, 0 0 36px #ff2d7860; }
+}
+
+/* ─── Layout Utility Classes ───────────────────────────────────────── */
+
+/* Animated perspective grid for backgrounds */
+.cyber-grid {
+  background-image:
+    linear-gradient(rgba(0, 245, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 255, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: grid-drift 24s linear infinite;
+}
+
+/* CRT scanline overlay */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.1) 3px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+  animation: scanline-scroll 8s linear infinite;
+}
+
+/* Neon text glows */
+.neon-text-cyan {
+  text-shadow: 0 0 8px #00f5ff, 0 0 16px #00f5ff80;
+}
+.neon-text-magenta {
+  text-shadow: 0 0 8px #ff2d78, 0 0 16px #ff2d7880;
+}
+.neon-text-gold {
+  text-shadow: 0 0 6px #ffcc00, 0 0 14px #ffcc0080;
+}
+
+/* Neon border/box glows */
+.neon-box-cyan {
+  box-shadow: 0 0 0 1px #00f5ff60, 0 0 10px #00f5ff30, inset 0 0 10px #00f5ff08;
+}
+.neon-box-magenta {
+  box-shadow: 0 0 0 1px #ff2d7860, 0 0 10px #ff2d7830, inset 0 0 10px #ff2d7808;
+}
+.neon-box-gold {
+  box-shadow: 0 0 0 1px #ffcc0060, 0 0 8px #ffcc0030, inset 0 0 8px #ffcc0008;
+}
+
+/* BingoSquare state classes */
+.sq-default {
+  background: #070d1a;
+  border: 1px solid #1a304d;
+  color: #cce8ff;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.sq-default:hover:not(:disabled) {
+  background: #0a1520;
+  border-color: rgba(0, 245, 255, 0.35);
+  box-shadow: 0 0 6px rgba(0, 245, 255, 0.12);
+}
+.sq-default:active:not(:disabled) {
+  background: #0d1e30;
+  border-color: rgba(0, 245, 255, 0.6);
+}
+.sq-default:focus-visible {
+  outline: 2px solid #00f5ff;
+  outline-offset: 1px;
+}
+
+.sq-marked {
+  background: #001e1e;
+  border: 1px solid #00f5ff;
+  color: #00f5ff;
+  box-shadow: 0 0 6px rgba(0, 245, 255, 0.5), 0 0 12px rgba(0, 245, 255, 0.2), inset 0 0 10px rgba(0, 245, 255, 0.05);
+}
+.sq-marked:focus-visible {
+  outline: 2px solid #00f5ff;
+  outline-offset: 1px;
+}
+
+.sq-winning {
+  background: #1a0014;
+  border: 1px solid #ff2d78;
+  color: #ff2d78;
+  animation: win-pulse 1.6s ease-in-out infinite;
+}
+.sq-winning:focus-visible {
+  outline: 2px solid #ff2d78;
+  outline-offset: 1px;
+}
+
+.sq-free {
+  background: #1a1300;
+  border: 1px solid #ffcc00;
+  color: #ffcc00;
+  box-shadow: 0 0 6px rgba(255, 204, 0, 0.4), inset 0 0 8px rgba(255, 204, 0, 0.05);
+}
+
+/* ─── CTA animated glow ────────────────────────────────────────────── */
+
+.cta-animate {
+  animation: slide-up-fade 0.5s 0.65s ease-out both, cta-glow 2.5s 1.5s ease-in-out infinite;
+}
+
+/* Abort button hover without JS */
+.hud-abort {
+  border: 1px solid #1a304d;
+  transition: border-color 0.15s, color 0.15s;
+}
+.hud-abort:hover {
+  border-color: rgba(0, 245, 255, 0.4);
+  color: #00f5ff;
+}
+.hud-abort:focus-visible {
+  outline: 2px solid #00f5ff;
+  outline-offset: 1px;
+}
+
+/* Staggered reveal (each child can add this) */
+.reveal-1 { animation: slide-up-fade 0.35s 0.2s ease-out both; }
+.reveal-2 { animation: slide-up-fade 0.35s 0.4s ease-out both; }
+.reveal-3 { animation: slide-up-fade 0.35s 0.5s ease-out both; }
+.reveal-4 { animation: slide-up-fade 0.35s 0.55s ease-out both; }
+
+/* ─── Reduced Motion ───────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .cyber-grid { animation: none; }
+  .scanlines::after { animation: none; display: none; }
+  .sq-winning { animation: none; }
+  .cta-animate,
+  .reveal-1,
+  .reveal-2,
+  .reveal-3,
+  .reveal-4 {
+    animation: none;
+    opacity: 1;
+  }
 }

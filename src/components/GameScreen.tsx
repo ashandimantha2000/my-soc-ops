@@ -17,33 +17,74 @@ export function GameScreen({
   onReset,
 }: GameScreenProps) {
   return (
-    <div className="flex flex-col min-h-full bg-gray-50">
-      {/* Header */}
-      <header className="flex items-center justify-between p-3 bg-white border-b border-gray-200">
+    <div className="relative flex flex-col min-h-full overflow-hidden cyber-grid bg-cy-bg scanlines">
+      {/* Ambient blobs */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 right-0 w-64 h-64 pointer-events-none"
+        style={{ background: 'radial-gradient(circle at top right, rgba(0,245,255,0.06) 0%, transparent 65%)' }}
+      />
+      <div
+        aria-hidden="true"
+        className="absolute bottom-0 left-0 w-64 h-64 pointer-events-none"
+        style={{ background: 'radial-gradient(circle at bottom left, rgba(255,45,120,0.05) 0%, transparent 65%)' }}
+      />
+
+      {/* ── HUD Header ── */}
+      <header
+        className="relative z-10 flex items-center justify-between px-3 py-2"
+        style={{
+          background: '#070d1aee',
+          borderBottom: '1px solid #1a304d',
+          boxShadow: '0 1px 0 rgba(0,245,255,0.1)',
+        }}
+      >
         <button
           onClick={onReset}
-          className="text-gray-500 text-sm px-3 py-1.5 rounded active:bg-gray-100"
+          className="hud-abort font-mono text-cy-text-dim text-xs px-3 py-1.5 rounded uppercase tracking-widest"
+          aria-label="Abort mission and return to start"
         >
-          ← Back
+          ← Abort
         </button>
-        <h1 className="font-bold text-gray-900">Soc Ops</h1>
-        <div className="w-16"></div>
+
+        <h1
+          className="font-cyber font-bold text-cy-cyan neon-text-cyan text-sm tracking-widest uppercase"
+        >
+          SOC OPS
+        </h1>
+
+        {/* HUD status indicator */}
+        <div className="font-mono text-xs text-cy-text-dim flex items-center gap-1.5">
+          <span
+            className="inline-block w-1.5 h-1.5 rounded-full bg-cy-green"
+            style={{ boxShadow: '0 0 4px #00ff88', animation: 'neon-pulse 2s ease-in-out infinite' }}
+            aria-hidden="true"
+          />
+          <span className="hidden sm:inline uppercase tracking-wider">Active</span>
+        </div>
       </header>
 
-      {/* Instructions */}
-      <p className="text-center text-gray-500 text-sm py-2 px-4">
-        Tap a square when you find someone who matches it.
-      </p>
+      {/* ── Status Bar ── */}
+      <div
+        className="relative z-10 text-center py-1.5 px-4"
+        style={{ borderBottom: '1px solid #1a304d10' }}
+      >
+        {hasBingo ? (
+          <p
+            className="font-cyber text-cy-magenta text-xs tracking-widest uppercase font-bold"
+            style={{ animation: 'bingo-banner 1.2s ease-in-out infinite' }}
+          >
+            ⚡ BINGO! — Line Secured ⚡
+          </p>
+        ) : (
+          <p className="font-mono text-cy-text-dim text-xs tracking-wider uppercase">
+            Locate target → tap square to mark
+          </p>
+        )}
+      </div>
 
-      {/* Bingo indicator */}
-      {hasBingo && (
-        <div className="bg-amber-100 text-amber-800 text-center py-2 font-semibold text-sm">
-          🎉 BINGO! You got a line!
-        </div>
-      )}
-
-      {/* Board */}
-      <div className="flex-1 flex items-center justify-center p-3">
+      {/* ── Board Area ── */}
+      <div className="relative z-10 flex-1 flex items-center justify-center p-3">
         <BingoBoard
           board={board}
           winningSquareIds={winningSquareIds}
