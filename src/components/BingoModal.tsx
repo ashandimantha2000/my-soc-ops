@@ -1,18 +1,46 @@
+import { useEffect } from 'react';
+
 interface BingoModalProps {
   onDismiss: () => void;
 }
 
 export function BingoModal({ onDismiss }: BingoModalProps) {
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onDismiss();
+    };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [onDismiss]);
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl p-6 max-w-xs w-full text-center shadow-xl animate-[bounce_0.5s_ease-out]">
-        <div className="text-5xl mb-4">🎉</div>
-        <h2 className="text-3xl font-bold text-amber-500 mb-2">BINGO!</h2>
-        <p className="text-gray-600 mb-6">You completed a line!</p>
-        
+    <div
+      className="fixed inset-0 bg-cyber-bg/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+      onClick={onDismiss}
+      role="presentation"
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="bingo-title"
+        onClick={(e) => e.stopPropagation()}
+        className="bg-cyber-surface border border-cyber-gold/50 rounded-xl p-8 max-w-xs w-full text-center border-glow-gold animate-scale-in"
+      >
+        <div className="text-5xl mb-4" aria-hidden="true">
+          🎉
+        </div>
+        <h2
+          id="bingo-title"
+          className="font-display text-4xl font-black text-cyber-gold glow-gold mb-2 tracking-widest"
+        >
+          BINGO!
+        </h2>
+        <p className="text-cyber-text-muted text-sm mb-6">You completed a line!</p>
+
         <button
           onClick={onDismiss}
-          className="w-full bg-accent text-white font-semibold py-3 px-6 rounded-lg active:bg-accent-light transition-colors"
+          autoFocus
+          className="w-full bg-cyber-cyan text-cyber-bg font-display font-bold py-3 px-6 rounded-lg tracking-[0.2em] uppercase hover:bg-cyber-cyan-dim active:scale-95 transition-all duration-150"
         >
           Keep Playing
         </button>
@@ -20,3 +48,4 @@ export function BingoModal({ onDismiss }: BingoModalProps) {
     </div>
   );
 }
+
