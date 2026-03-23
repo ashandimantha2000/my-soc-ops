@@ -1,11 +1,22 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-accent: #2563eb;
-  --color-accent-light: #3b82f6;
-  --color-marked: #dcfce7;
-  --color-marked-border: #22c55e;
-  --color-bingo: #fbbf24;
+  /* Cyberpunk Neon – performance-first palette */
+  --color-bg: #080c14;
+  --color-surface: #0f1629;
+  --color-border: #1e3347;
+
+  --color-accent: #00d4ff;
+  --color-accent-dim: #0099bb;
+
+  --color-marked: #081f14;
+  --color-marked-border: #00e87a;
+
+  --color-bingo: #ffd700;
+  --color-bingo-dim: #cc9c00;
+
+  --color-text: #c8dff0;
+  --color-text-muted: #7a9ab8;
 }
 
 html,
@@ -16,6 +27,41 @@ body,
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  background-color: #080c14;
+  color: #c8dff0;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* --- Animations (transform + opacity only for GPU compositing) --- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Reduced-motion: collapse all durations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
