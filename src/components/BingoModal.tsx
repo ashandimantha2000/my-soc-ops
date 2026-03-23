@@ -1,20 +1,48 @@
+import { useEffect, useRef } from 'react';
+
 interface BingoModalProps {
   onDismiss: () => void;
 }
 
 export function BingoModal({ onDismiss }: BingoModalProps) {
+  const dismissButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    dismissButtonRef.current?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onDismiss();
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [onDismiss]);
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl p-6 max-w-xs w-full text-center shadow-xl animate-[bounce_0.5s_ease-out]">
-        <div className="text-5xl mb-4">🎉</div>
-        <h2 className="text-3xl font-bold text-amber-500 mb-2">BINGO!</h2>
-        <p className="text-gray-600 mb-6">You completed a line!</p>
-        
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="bingo-title"
+        aria-describedby="bingo-description"
+        className="cp-shell cp-scanline w-full max-w-sm rounded-2xl p-6 text-center animate-pop-in"
+      >
+        <div className="text-5xl [text-shadow:0_0_20px_rgb(255_46_196/60%)]">🎉</div>
+        <h2 id="bingo-title" className="cp-title mt-3 text-4xl font-black text-neon-amber animate-neon-pulse">
+          BINGO
+        </h2>
+        <p id="bingo-description" className="mt-3 text-lg text-ink-soft">Signal locked. You completed a line.</p>
+
         <button
+          ref={dismissButtonRef}
           onClick={onDismiss}
-          className="w-full bg-accent text-white font-semibold py-3 px-6 rounded-lg active:bg-accent-light transition-colors"
+          className="cp-btn-primary cp-focus mt-6 w-full rounded-xl px-6 py-3 text-lg font-semibold uppercase tracking-[0.11em]"
         >
-          Keep Playing
+          Continue Run
         </button>
       </div>
     </div>
