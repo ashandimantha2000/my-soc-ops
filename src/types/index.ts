@@ -1,4 +1,4 @@
-/** Domain types for the Bingo game */
+/** Domain types for the Bingo and Scavenger Hunt games */
 
 export interface BingoSquareData {
   id: number;
@@ -13,4 +13,12 @@ export interface BingoLine {
   squares: number[];
 }
 
-export type GameState = 'start' | 'playing' | 'bingo';
+export interface ScavengerItem {
+  id: number;
+  text: string;
+  isChecked: boolean;
+}
+
+export type GameMode = 'bingo' | 'scavenger';
+
+export type GameState = 'start' | 'playing' | 'bingo' | 'scavenger-complete';
