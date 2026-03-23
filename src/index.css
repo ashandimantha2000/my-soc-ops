@@ -1,11 +1,42 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-accent: #2563eb;
-  --color-accent-light: #3b82f6;
-  --color-marked: #dcfce7;
-  --color-marked-border: #22c55e;
-  --color-bingo: #fbbf24;
+  /* ── Cyberpunk surfaces ────────────────────────────────────── */
+  --color-cyber-bg: #08090f;
+  --color-cyber-surface: #0d0e1a;
+  --color-cyber-surface-raised: #131428;
+  --color-cyber-surface-hover: #181930;
+
+  /* ── Border tiers ─────────────────────────────────────────── */
+  --color-cyber-border: #1c1e35;
+  --color-cyber-border-bright: #282b4a;
+
+  /* ── Accent palette ───────────────────────────────────────── */
+  --color-cyber-cyan: #00e5ff;
+  --color-cyber-cyan-dim: #00b8cc;
+  --color-cyber-pink: #ff2d78;
+  --color-cyber-pink-dim: #cc2460;
+  --color-cyber-green: #00ff9f;
+  --color-cyber-green-dim: #00cc7a;
+  --color-cyber-gold: #ffd700;
+  --color-cyber-gold-dim: #ccac00;
+
+  /* ── Text tiers ───────────────────────────────────────────── */
+  --color-cyber-text: #c8d6f0;
+  --color-cyber-text-muted: #6a7a9e;
+  --color-cyber-text-bright: #e8f0ff;
+
+  /* ── Legacy compatibility (for any leftover class refs) ────── */
+  --color-accent: #00e5ff;
+  --color-accent-light: #33eeff;
+  --color-marked: #001a0f;
+  --color-marked-border: #00ff9f;
+  --color-bingo: #ffd700;
+
+  /* ── Font families ────────────────────────────────────────── */
+  --font-sans: 'Share Tech', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Share Tech', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --font-display: 'Orbitron', 'Courier New', monospace;
 }
 
 html,
@@ -16,6 +47,102 @@ body,
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
   -webkit-tap-highlight-color: transparent;
+  background-color: #08090f;
+  color: #c8d6f0;
 }
+
+/* ── Cyberpunk grid background ──────────────────────────────── */
+.cyber-grid {
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* ── Glow text effects ─────────────────────────────────────── */
+.glow-cyan {
+  text-shadow:
+    0 0 18px rgba(0, 229, 255, 0.65),
+    0 0 36px rgba(0, 229, 255, 0.3);
+}
+
+.glow-gold {
+  text-shadow:
+    0 0 18px rgba(255, 215, 0, 0.65),
+    0 0 36px rgba(255, 215, 0, 0.3);
+}
+
+.glow-pink {
+  text-shadow:
+    0 0 18px rgba(255, 45, 120, 0.65),
+    0 0 36px rgba(255, 45, 120, 0.3);
+}
+
+/* ── Box glow effects ──────────────────────────────────────── */
+.border-glow-cyan {
+  box-shadow:
+    0 0 0 1px rgba(0, 229, 255, 0.25),
+    0 0 14px rgba(0, 229, 255, 0.12);
+}
+
+.border-glow-gold {
+  box-shadow:
+    0 0 0 1px rgba(255, 215, 0, 0.35),
+    0 0 18px rgba(255, 215, 0, 0.2);
+}
+
+/* ── Font utility ─────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* ── Entrance animations ──────────────────────────────────── */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUpFade 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Focus visible ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #00e5ff;
+  outline-offset: 2px;
+}
+
+/* ── Reduced motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
